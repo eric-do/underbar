@@ -56,6 +56,7 @@
     } else if (typeof collection === 'object') {
       let values = Object.values(collection);
       let keys = Object.keys(collection);
+
       for (let i = 0; i < values.length; i++) {
         iterator(values[i], keys[i], collection);
       }
@@ -81,16 +82,46 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    let arr = [];
+
+    _.each(collection, function(val){
+      if (test(val) === true) {
+        arr.push(val);
+      }
+    });
+    return arr;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    return _.filter(collection, function(val){
+      return test(val) === false;
+    });
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    let hashMap = {};
+    let uniques = [];
+
+    if (!iterator) {
+      _.each(array, function(val) {
+        if (hashMap[val] === undefined) {
+          uniques.push(val);
+          hashMap[val] = ' ';
+        }
+      });
+    } else if (iterator) { 
+      _.each(array, function(val){
+        if (hashMap[iterator(val)] === undefined) {
+          uniques.push(val);
+          hashMap[iterator(val)] = ' ';
+        }
+      }); 
+    }
+    return uniques;
   };
 
 
@@ -257,8 +288,32 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    // Take an array as param
+    // Generate random number between 0 and array length - 1
+    // If random number exists in map, generate another until a unique number generated
+    // Else use random number as an index to push val from original array to shuffled array
+    let hashMap = {};
+    let shuffled = [];
+
+    while (shuffled.length !== array.length) {
+      let randomIndex = getRandom(0, array.length);
+
+      while (hashMap[randomIndex]) {
+        randomIndex = getRandom(0, array.length);
+      }
+      hashMap[randomIndex] = ' ';
+      shuffled.push(array[randomIndex]);
+    }
+
+    return shuffled;
   };
 
+  function getRandom(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    
+    return Math.floor(Math.random() * (max - min) + min);
+  }
 
   /**
    * ADVANCED

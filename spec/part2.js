@@ -498,6 +498,13 @@
       checkForNativeMethods(function() {
         _.shuffle([1, 2, 3, 4])
       })
+      
+      it('should maintain same array length', function() {
+        var numbers = [1, 1, 2, 3];
+        var shuffled = _.shuffle(numbers);
+
+        expect(shuffled.length).to.equal(numbers.length);
+      });
 
       it('should not modify the original object', function() {
         var numbers = [4, 5, 6];
