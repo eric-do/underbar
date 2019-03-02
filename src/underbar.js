@@ -103,6 +103,14 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    // If there isn't an iterator, loop
+      // If a value exists in a hashMap, it's not unique and we skip it
+      // If a value doesn't exist in a hashMap, it's unique; push value 
+      // to uniques and add value to hashmap
+    // If there is an iterator, loop
+      // If the result of iterator isn't unique, skip
+      // If the result of iterator IS unique, add the _result_ to the 
+      // hashMap and push the array _value_ to uniques
     let hashMap = {};
     let uniques = [];
 
@@ -130,6 +138,20 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    let map = [];
+    if (Array.isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        map.push(iterator(collection[i], i, collection));
+      }
+    } else if (typeof collection === 'object') {
+      let values = Object.values(collection);
+      let keys = Object.keys(collection);
+
+      for (let i = 0; i < values.length; i++) {
+        map.push(iterator(values[i], keys[i], collection));
+      }
+    }
+    return map;
   };
 
   /*
