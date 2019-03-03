@@ -232,10 +232,13 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    let iterate = iterator ? iterator : _.identity;
+    
     return _.reduce(collection,function(allTrue, item){
-      if (item === false) {
+      if (Boolean(iterate(item)) === false) {
         return false;
       }
+      return allTrue;
     }, true);
   };
 
