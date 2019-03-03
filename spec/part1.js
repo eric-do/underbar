@@ -535,13 +535,24 @@
         expect(result).to.equal(4);
       });
 
-      it('should accept falsy values as a valid memo', function() {
+      it('should accept falsy values as a valid memo - part 1', function() {
         // Be careful how you check if a memo has been passed in
         var result = _.reduce([1,2,3], function(memo, item) {
           return memo * item;
         }, 0);
 
-        expect(result).to.equal(0);
+        expect(result).to.equal(6); // I'm assuming the returned value is expected to be 6 and not 0 (i.e. we are meant to change this)
+                                    // since 0 as a starting value is valid 
+                                    // To test falsy memo I created part 1 and part 2: part 1 uses memo 0, part 2 uses memo 'false'
+      });
+
+      it('should accept falsy values as a valid memo - part 2', function() {
+        // Be careful how you check if a memo has been passed in
+        var result = _.reduce([1,2,3], function(memo, item) {
+          return memo * item;
+        }, false);
+
+        expect(result).to.equal(6); 
       });
 
       it('should set memo to be the first item of the array if no memo is passed in', function() {

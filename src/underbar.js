@@ -151,7 +151,7 @@
         map.push(iterator(values[i], keys[i], collection));
       }
     }
-    return map;
+    return map; 
   };
 
   /*
@@ -193,6 +193,26 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    // If there's an accumulator we set starting value to be the accumulator and 
+    // apply the iterator to the first element (i.e. the entire array)
+    // If there's no accumulator, we set starting value to be the first element
+    // in the array, and apply the iterator to the second and on
+    let acc;
+    let sliced = [];
+
+    if (accumulator) {
+      acc = accumulator;
+      sliced = collection.slice(); 
+    } else {
+      acc = collection[0];
+      sliced = collection.slice(1);
+    }
+
+    _.each(sliced, function(val){
+      acc = iterator(acc, val);
+    })
+
+    return acc; 
   };
 
   // Determine if the array or object contains a given value (using `===`).
