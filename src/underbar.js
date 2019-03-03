@@ -199,18 +199,18 @@
     // in the array, and apply the iterator to the second and on
     let acc;
     let sliced = [];
-    let keys = Object.keys(collection);
+    let values = Object.values(collection);
 
     if (accumulator !== undefined) {
       acc = accumulator;
-      sliced = keys.slice(); 
+      sliced = values.slice(); 
     } else {
       acc = collection[0];
-      sliced = keys.slice(1);
+      sliced = values.slice(1);
     }
 
-    _.each(sliced, function(key){
-      acc = iterator(acc, collection[key]);
+    _.each(sliced, function(val){
+      acc = iterator(acc, val);
     })
 
     return acc; 
