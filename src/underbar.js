@@ -246,8 +246,10 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    // Basically if EVERY value is NOT false, then SOME values are true and
+    // _.some() returns true
     let iterate = iterator ? iterator : _.identity;
-    
+
     return !_.every(collection, function(val) {
       return (Boolean(iterate(val)) === false);
     });
@@ -273,6 +275,21 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    // If there is only 1 argument, we return that argument as an object
+    // If there are multiple arguments, we append the key/value pairs for each
+    // source object to the destination object (destination object is the first
+    // argument)
+    if (arguments.length < 2 ) {
+      return obj;
+    }
+
+    for (let i = 1; i < arguments.length; i++){
+      let keys = Object.keys(arguments[i]);
+      for (let j = 0; j < keys.length; j++) {
+        obj[keys[j]] = arguments[i][keys[j]];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
