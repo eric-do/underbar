@@ -38,8 +38,8 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
-    return n > array.length ? array 
-                            : n === undefined ? array[array.length - 1] 
+    return n > array.length ? array
+                            : n === undefined ? array[array.length - 1]
                             : array.slice(array.length - n, array.length);
   };
 
@@ -105,11 +105,11 @@
   _.uniq = function(array, isSorted, iterator) {
     // If there isn't an iterator, loop
       // If a value exists in a hashMap, it's not unique and we skip it
-      // If a value doesn't exist in a hashMap, it's unique; push value 
+      // If a value doesn't exist in a hashMap, it's unique; push value
       // to uniques and add value to hashmap
     // If there is an iterator, loop
       // If the result of iterator isn't unique, skip
-      // If the result of iterator IS unique, add the _result_ to the 
+      // If the result of iterator IS unique, add the _result_ to the
       // hashMap and push the array _value_ to uniques
     let hashMap = {};
     let uniques = [];
@@ -121,13 +121,13 @@
           hashMap[val] = ' ';
         }
       });
-    } else if (iterator) { 
+    } else if (iterator) {
       _.each(array, function(val){
         if (hashMap[iterator(val)] === undefined) {
           uniques.push(val);
           hashMap[iterator(val)] = ' ';
         }
-      }); 
+      });
     }
     return uniques;
   };
@@ -151,7 +151,7 @@
         map.push(iterator(values[i], keys[i], collection));
       }
     }
-    return map; 
+    return map;
   };
 
   /*
@@ -175,25 +175,25 @@
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
   // the return value of the previous iterator call.
-  //  
+  //
   // You can pass in a starting value for the accumulator as the third argument
   // to reduce. If no starting value is passed, the first element is used as
   // the accumulator, and is never passed to the iterator. In other words, in
   // the case where a starting value is not passed, the iterator is not invoked
   // until the second element, with the first element as its second argument.
-  //  
+  //
   // Example:
   //   var numbers = [1,2,3];
   //   var sum = _.reduce(numbers, function(total, number){
   //     return total + number;
   //   }, 0); // should be 6
-  //  
+  //
   //   var identity = _.reduce([5], function(total, number){
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    // If there's an accumulator we set starting value to be the accumulator and 
+    // If there's an accumulator we set starting value to be the accumulator and
     // apply the iterator to the first element (i.e. the entire array)
     // If there's no accumulator, we set starting value to be the first element
     // in the array, and apply the iterator to the second and on
@@ -203,7 +203,7 @@
 
     if (accumulator !== undefined) {
       acc = accumulator;
-      sliced = values.slice(); 
+      sliced = values.slice();
     } else {
       acc = collection[0];
       sliced = values.slice(1);
@@ -213,7 +213,7 @@
       acc = iterator(acc, val);
     })
 
-    return acc; 
+    return acc;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -233,7 +233,7 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
     let iterate = iterator ? iterator : _.identity;
-    
+
     return _.reduce(collection,function(allTrue, item){
       if (Boolean(iterate(item)) === false) {
         return false;
@@ -246,6 +246,11 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    let iterate = iterator ? iterator : _.identity;
+    
+    return !_.every(collection, function(val) {
+      return (Boolean(iterate(val)) === false);
+    });
   };
 
 
@@ -362,7 +367,7 @@
   function getRandom(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    
+
     return Math.floor(Math.random() * (max - min) + min);
   }
 
