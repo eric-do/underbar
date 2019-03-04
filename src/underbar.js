@@ -82,6 +82,9 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    // Iterate through entire array checking whether each value passes a truth test
+    // If value passes truth test, push value to an array
+    // Return array
     let arr = [];
 
     _.each(collection, function(val){
@@ -193,10 +196,10 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    // If there's an accumulator we set starting value to be the accumulator and
-    // apply the iterator to the first element (i.e. the entire array)
+    // If there's an accumulator, we set starting value to be the accumulator and
+    // begin the iterator starting from the first element (i.e. iterate the entire array)
     // If there's no accumulator, we set starting value to be the first element
-    // in the array, and apply the iterator to the second and on
+    // in the array, and apply the iterator starting from the second and on
     let acc;
     let sliced = [];
     let values = Object.values(collection);
@@ -263,22 +266,11 @@
    * In this section, we'll look at a couple of helpers for merging objects.
    */
 
-  // Extend a given object with all the properties of the passed in
-  // object(s).
-  //
-  // Example:
-  //   var obj1 = {key1: "something"};
-  //   _.extend(obj1, {
-  //     key2: "something new",
-  //     key3: "something else new"
-  //   }, {
-  //     bla: "even more stuff"
-  //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
     // If there is only 1 argument, we return that argument as an object
     // If there are multiple arguments, we append the key/value pairs for each
     // source object to the destination object (destination object is the first
-    // argument)
+    // argument). Function can take one or more arguments.
     if (arguments.length < 2 ) {
       return obj;
     }
@@ -349,6 +341,10 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    // Get string value of arguments and store it as a key
+    // If the key already exists, return the key
+    // If the key doesn't exist, execute the function given the paramters and
+    // return the result
     let cache = {};
     return function() {
       let key = JSON.stringify(arguments);
@@ -369,6 +365,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    let args = Array.prototype.slice.call(arguments, 2);
+    return setTimeout(function(){
+      return func.apply(null, args);
+    }, wait);
   };
 
 
