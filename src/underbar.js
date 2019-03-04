@@ -298,7 +298,7 @@
     if (arguments.length < 2 ) {
       return obj;
     }
-    
+
     for (let i = 1; i < arguments.length; i++){
       let keys = Object.keys(arguments[i]);
       for (let j = 0; j < keys.length; j++) {
@@ -349,6 +349,17 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    let cache = {};
+    return function() {
+      let key = JSON.stringify(arguments);
+      if (key in cache) {
+        return cache[key];
+      } else {
+        let value = func.apply(null, arguments);
+        cache[key] = value;
+        return value;
+      }
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
