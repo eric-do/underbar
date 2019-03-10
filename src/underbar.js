@@ -527,7 +527,7 @@
         return _.every(array, function(val){
           return val !== valueArray[i];
         });
-        return allFalse === true;
+        return allFalse;
       });
       if (inNone) {
         results.push(valueArray[i]);
