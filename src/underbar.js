@@ -54,11 +54,8 @@
         iterator(collection[i], i, collection);
       }
     } else if (typeof collection === 'object') {
-      let values = Object.values(collection);
-      let keys = Object.keys(collection);
-
-      for (let i = 0; i < values.length; i++) {
-        iterator(values[i], keys[i], collection);
+      for (var key in collection) {
+        iterator(collection[key], key, collection);
       }
     }
   };
@@ -88,7 +85,7 @@
     let arr = [];
 
     _.each(collection, function(val){
-      if (test(val) === true) {
+      if (test(val)) {
         arr.push(val);
       }
     });
@@ -100,7 +97,7 @@
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
     return _.filter(collection, function(val){
-      return test(val) === false;
+      return !test(val);
     });
   };
 
@@ -141,20 +138,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
-    let map = [];
-    if (Array.isArray(collection)) {
-      for (let i = 0; i < collection.length; i++) {
-        map.push(iterator(collection[i], i, collection));
-      }
-    } else if (typeof collection === 'object') {
-      let values = Object.values(collection);
-      let keys = Object.keys(collection);
-
-      for (let i = 0; i < values.length; i++) {
-        map.push(iterator(values[i], keys[i], collection));
-      }
-    }
-    return map;
+    let results = [];
+    _.each(collection, function(value, key, collection){
+      results.push(iterator(value, key, collection));
+    });
+    return results;
   };
 
   /*
