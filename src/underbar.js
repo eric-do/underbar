@@ -242,7 +242,7 @@
     let iterate = iterator ? iterator : _.identity;
 
     return !_.every(collection, function(val) {
-      return (Boolean(iterate(val)) === false);
+      return (!!(iterate(val)) === false);
     });
   };
 
