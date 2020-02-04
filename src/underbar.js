@@ -103,29 +103,26 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
-    // If there isn't an iterator, loop
-      // If a value exists in a hashMap, it's not unique and we skip it
-      // If a value doesn't exist in a hashMap, it's unique; push value
-      // to uniques and add value to hashmap
-    // If there is an iterator, loop
-      // If the result of iterator isn't unique, skip
-      // If the result of iterator IS unique, add the _result_ to the
-      // hashMap and push the array _value_ to uniques
-    let hashMap = {};
-    let uniques = [];
+    // Return an array of unique values
+    // If the array is sorted, perform a faster search
+    // If there is an iterator, there is no guarantee if order,
+    // so faster algo is disabled
+    const uniques = [];
 
-    if (!iterator) {
-      _.each(array, function(val) {
-        if (hashMap[val] === undefined) {
-          uniques.push(val);
-          hashMap[val] = ' ';
+    if (isSorted && !iterator) {
+      array.forEach((value, index) => {
+        if (value !== array[index - 1]) {
+          uniques.push(value);
         }
       });
-    } else if (iterator) {
-      _.each(array, function(val){
-        if (hashMap[iterator(val)] === undefined) {
-          uniques.push(val);
-          hashMap[iterator(val)] = ' ';
+    } else {
+      const hash = {};
+      iterator = iterator || function(x) { return x; }
+      array.forEach(value => {
+        const it = iterator(value);
+        if (!hash[it]) {
+          uniques.push(value);
+          hash[it] = true;
         }
       });
     }
